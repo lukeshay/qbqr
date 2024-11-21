@@ -1,49 +1,49 @@
 import { GlobalWorkerOptions, PDFDocumentProxy, getDocument } from "pdfjs-dist";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
-import { PDFDocument, rgb } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
 import QRCode from "qrcode";
 
 // Set the worker source
 GlobalWorkerOptions.workerSrc = pdfjsWorker;
 
-async function adjustContent(pdfDoc: PDFDocument, pdf: PDFDocumentProxy) {
-  const pages = pdfDoc.getPages();
-
-  const page = pages[0]; // Assuming single-page PDF
-  const { height } = page.getSize();
-
-  const content = await pdf.getPage(1).then((page) => page.getTextContent());
-
-  // Find the "ACTIVITY" header
-  let activityY = 0;
-  for (const item of content.items) {
-    if ((item as any).str === "ACTIVITY") {
-      activityY = (item as any).transform[5];
-      break;
-    }
-  }
-
-  if (activityY === 0) {
-    throw new Error('"ACTIVITY" header not found');
-  }
-
-  // Shift all elements below "ACTIVITY"
-  const shiftAmount = 32;
-  for (const item of content.items) {
-    const y = (item as any).transform[5];
-    if (y < activityY) {
-      continue; // Skip elements above "ACTIVITY"
-    }
-
-    // Adjust position for items below "ACTIVITY"
-    page.drawText((item as any).str, {
-      x: (item as any).transform[4], // X-coordinate
-      y: y - shiftAmount,
-      size: 12,
-      color: rgb(0, 0, 0),
-    });
-  }
-}
+// async function adjustContent(pdfDoc: PDFDocument, pdf: PDFDocumentProxy) {
+//   const pages = pdfDoc.getPages();
+//
+//   const page = pages[0]; // Assuming single-page PDF
+//   const { height } = page.getSize();
+//
+//   const content = await pdf.getPage(1).then((page) => page.getTextContent());
+//
+//   // Find the "ACTIVITY" header
+//   let activityY = 0;
+//   for (const item of content.items) {
+//     if ((item as any).str === "ACTIVITY") {
+//       activityY = (item as any).transform[5];
+//       break;
+//     }
+//   }
+//
+//   if (activityY === 0) {
+//     throw new Error('"ACTIVITY" header not found');
+//   }
+//
+//   // Shift all elements below "ACTIVITY"
+//   const shiftAmount = 32;
+//   for (const item of content.items) {
+//     const y = (item as any).transform[5];
+//     if (y < activityY) {
+//       continue; // Skip elements above "ACTIVITY"
+//     }
+//
+//     // Adjust position for items below "ACTIVITY"
+//     page.drawText((item as any).str, {
+//       x: (item as any).transform[4], // X-coordinate
+//       y: y - shiftAmount,
+//       size: 12,
+//       color: rgb(0, 0, 0),
+//     });
+//   }
+// }
 
 async function addQRCodesToPDF(
   pdfDocument: PDFDocument,
