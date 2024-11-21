@@ -2,6 +2,7 @@ import { GlobalWorkerOptions, PDFDocumentProxy, getDocument } from "pdfjs-dist";
 import pdfjsWorker from "pdfjs-dist/build/pdf.worker.mjs?url";
 import { PDFDocument } from "pdf-lib";
 import QRCode from "qrcode";
+import "./index.css";
 
 // Set the worker source
 GlobalWorkerOptions.workerSrc = pdfjsWorker;

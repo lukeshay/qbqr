@@ -6,11 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Quickbooks Pledge QR Appender</title>
   </head>
-  <body>
-    <form id="form">
-      <label for="pledges">Pledges:</label>
-      <input type="file" id="pledges" name="file" />
-      <button type="submit">Submit</button>
+  <body class="h-screen flex flex-col justify-center">
+    <div class="max-w-xs mx-auto pb-8">
+      <h1 class="font-bold text-2xl">Add QR Codes to Invoices</h1>
+    </div>
+    <form id="form" class="max-w-xs mx-auto space-y-6">
+      <label class="form-control w-full max-w-xs">
+        <div class="label">
+          <span class="label-text">Pledges</span>
+        </div>
+        <input id="pledges" type="file" class="file-input w-full max-w-xs" />
+      </label>
+      <button type="submit" class="btn btn-neutral btn-outline w-full">
+        Submit
+      </button>
     </form>
     <script type="module" src="/src/main.ts"></script>
   </body>
