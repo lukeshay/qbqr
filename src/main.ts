@@ -75,7 +75,7 @@ async function addQRCodesToPDF(
         const qrImage = await pdfDocument.embedPng(qrCodeB64);
         const qrImageDims = qrImage.scale(0.55);
         const x = 55; // 10 units from the right edge
-        const y = 20;
+        const y = 40;
 
         documentPage.drawImage(qrImage, {
           x,
